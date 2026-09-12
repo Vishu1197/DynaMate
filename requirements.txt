@@ -1,0 +1,24 @@
+# DynaMate's Python helpers have no third-party dependencies.
+#
+# Everything they use ships with Python 3.8+:
+#   pathlib, argparse, csv, re, shutil, sys, difflib
+#
+# The real requirements are external programs, not pip packages:
+#
+#   GROMACS >= 2021      https://manual.gromacs.org/current/install-guide/
+#                        (2021+ for the C-rescale barostat used in npt.mdp)
+#                        source /usr/local/gromacs/bin/GMXRC
+#
+#   AmberTools           conda install -c conda-forge ambertools
+#                        provides: antechamber, parmchk2, tleap,
+#                                  amb2gro_top_gro.py
+#
+# Optional, for binding free energy in step 17 of docs/WORKFLOW.md:
+#
+#   gmx_MMPBSA           pip install gmx_MMPBSA
+#
+# Optional, if you prefer it to amb2gro_top_gro.py for Amber -> GROMACS:
+#
+#   acpype               pip install acpype
+#
+# Requires: Python >= 3.8

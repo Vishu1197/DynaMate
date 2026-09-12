@@ -1,0 +1,65 @@
+# ---- GROMACS run output ----------------------------------------------------
+*.tpr
+*.trr
+*.xtc
+*.edr
+*.cpt
+*.log
+*_prev.cpt
+step*.pdb
+\#*\#
+dynamate.log
+
+# ---- GROMACS / Amber intermediates -----------------------------------------
+*.gro
+*.top
+*.itp
+*.ndx
+*.xvg
+*.prmtop
+*.inpcrd
+*.frcmod
+*.mol2
+ANTECHAMBER*
+ATOMTYPE.INF
+sqm.in
+sqm.out
+sqm.pdb
+leap.log
+leap_*.in
+leap_*.log
+
+# ---- structures (usually large, and not yours to redistribute) -------------
+*.pdb
+*.ent
+*.cif
+*.sdf
+
+# ---- but DO keep the repo's own templates ----------------------------------
+!mdp/*.mdp
+!examples/**
+
+# ---- working directories ---------------------------------------------------
+analysis/
+p2rank_out/
+
+# ---- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.Python
+build/
+dist/
+*.egg-info/
+
+# ---- editors / OS ----------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

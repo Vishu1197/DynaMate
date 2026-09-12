@@ -1,0 +1,17 @@
+; ions.mdp - a zero-step run used only to produce a .tpr for gmx genion.
+; Nothing is integrated here. The settings just have to be valid.
+;
+; The generous 1.5 nm cutoffs avoid grompp complaining about a box that is
+; still slightly small before the ions go in; they have no physical effect
+; because nsteps = 0.
+
+integrator       = steep
+nsteps           = 0
+
+cutoff-scheme    = Verlet
+coulombtype      = PME
+rcoulomb         = 1.5
+rvdw             = 1.5
+rlist            = 1.5
+
+pbc              = xyz

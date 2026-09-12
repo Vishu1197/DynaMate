@@ -1,0 +1,64 @@
+; nvt.mdp - NVT equilibration (constant Number, Volume, Temperature)
+; Brings the system to temperature while the solute is held in place by
+; position restraints, so the solvent relaxes around it rather than the
+; other way round.
+;
+; 250000 x 0.002 ps = 500 ps
+
+integrator              = md
+dt                      = 0.002
+nsteps                  = 250000
+continuation            = no          ; first dynamics run: constrain start
+
+; Position restraints on protein, cofactor and ligand.
+; This is why grompp needs -r as well as -c.
+define                  = -DPOSRES
+
+; Constraints
+constraint_algorithm    = lincs
+constraints             = h-bonds     ; required for a 2 fs timestep
+lincs_iter              = 2
+lincs_order             = 4
+
+; Neighbour searching
+cutoff-scheme           = Verlet
+nstlist                 = 20
+
+; Electrostatics
+coulombtype             = PME
+rcoulomb                = 1.0
+pme_order               = 4
+fourierspacing          = 0.12
+
+; van der Waals
+rvdw                    = 1.0
+DispCorr                = EnerPres    ; long-range dispersion correction
+
+; Periodic boundary conditions
+pbc                     = xyz
+
+; Temperature coupling
+; Two groups, not one. Coupling the whole system as a single group lets
+; kinetic energy drain from the solute into the solvent ("hot solvent, cold
+; solute"). Separate baths for solute and solvent is the standard fix.
+tcoupl                  = V-rescale
+tc-grps                 = Protein Non-Protein
+tau_t                   = 0.1     0.1
+ref_t                   = 300     300
+
+; Pressure coupling off during NVT
+pcoupl                  = no
+
+; Generate starting velocities from a Maxwell distribution
+gen_vel                 = yes
+gen_temp                = 300
+gen_seed                = -1
+
+; Centre-of-mass motion removal
+nstcomm                 = 100
+comm-mode               = Linear
+
+; Output
+nstxout-compressed      = 5000
+nstenergy               = 500
+nstlog                  = 500

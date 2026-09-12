@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+title: >-
+  DynaMate: a reproducible GROMACS molecular dynamics workflow for
+  protein-cofactor-metal-ligand systems
+message: If you use DynaMate in your research, please cite it.
+type: software
+authors:
+  - family-names: Chanda
+    given-names: Vishal
+    orcid: https://orcid.org/0000-0002-1646-6329
+    affiliation: REVA University, Bengaluru, India
+repository-code: https://github.com/Vishu1197/DynaMate
+url: https://github.com/Vishu1197/DynaMate
+abstract: >-
+  DynaMate automates the setup, equilibration, production and analysis of
+  all-atom molecular dynamics simulations of proteins carrying a cofactor, a
+  metal ion and a docked ligand. Protein parameters come from an AMBER force
+  field; cofactor and ligand parameters are generated with GAFF2 and AM1-BCC
+  charges through AmberTools; the metal ion is taken from the force field's own
+  ion parameters. Every molecule is renamed to a generic label (Protein, COF,
+  MI, LIG) so that commands, file names and analysis groups are identical
+  between projects. The workflow is built around the failure modes of manual
+  setup that produce a valid but silently incorrect topology, and checks for
+  each of them explicitly.
+keywords:
+  - molecular dynamics
+  - GROMACS
+  - AmberTools
+  - GAFF2
+  - protein-ligand interaction
+  - cofactor
+  - metal ion
+  - computational biology
+  - structural bioinformatics
+  - MM-PBSA
+  - reproducible research
+license: MIT
+version: '2.0'
+date-released: '2026-09-12'

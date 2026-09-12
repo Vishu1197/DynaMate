@@ -1,0 +1,68 @@
+; npt.mdp - NPT equilibration (constant Number, Pressure, Temperature)
+; Lets the box relax to the correct density at 1 bar. Position restraints stay
+; on so the solute does not drift while the solvent settles.
+;
+; 500000 x 0.002 ps = 1000 ps = 1 ns
+
+integrator              = md
+dt                      = 0.002
+nsteps                  = 500000
+continuation            = yes         ; continuing from NVT: keep constraints
+
+; Position restraints still on
+define                  = -DPOSRES
+
+; Constraints
+constraint_algorithm    = lincs
+constraints             = h-bonds
+lincs_iter              = 2
+lincs_order             = 4
+
+; Neighbour searching
+cutoff-scheme           = Verlet
+nstlist                 = 100
+
+; Electrostatics
+coulombtype             = PME
+rcoulomb                = 1.0
+pme_order               = 4
+fourierspacing          = 0.12
+
+; van der Waals
+rvdw                    = 1.0
+DispCorr                = EnerPres
+
+; Periodic boundary conditions
+pbc                     = xyz
+
+; Temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = Protein Non-Protein
+tau_t                   = 0.1     0.1
+ref_t                   = 300     300
+
+; Pressure coupling
+; C-rescale is the stochastic cell rescaling barostat (GROMACS 2021+). Unlike
+; Parrinello-Rahman it is well behaved during equilibration and produces a
+; correct ensemble, so it is safe to use here and in production.
+; On GROMACS < 2021 use Berendsen here and Parrinello-Rahman in production.
+pcoupl                  = C-rescale
+pcoupltype              = isotropic
+tau_p                   = 2.0
+ref_p                   = 1.0
+compressibility         = 4.5e-5
+
+; Scale position-restraint reference coordinates with the box
+refcoord_scaling        = com
+
+; Keep the velocities from NVT
+gen_vel                 = no
+
+; Centre-of-mass motion removal
+nstcomm                 = 100
+comm-mode               = Linear
+
+; Output
+nstxout-compressed      = 5000
+nstenergy               = 500
+nstlog                  = 500

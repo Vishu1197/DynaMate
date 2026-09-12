@@ -1,0 +1,23 @@
+; em.mdp - steepest-descent energy minimisation
+; Removes the steric clashes that solvation and ion placement always create.
+; Run this before any dynamics; an unminimised system will explode at step 1.
+
+integrator              = steep
+emtol                   = 1000.0      ; stop when Fmax < 1000 kJ/mol/nm
+emstep                  = 0.01        ; initial step size (nm)
+nsteps                  = 50000       ; upper bound; convergence usually wins first
+
+; Neighbour searching
+cutoff-scheme           = Verlet
+nstlist                 = 10
+
+; Electrostatics
+coulombtype             = PME
+rcoulomb                = 1.0
+
+; van der Waals
+rvdw                    = 1.0
+rlist                   = 1.0
+
+; Periodic boundary conditions
+pbc                     = xyz

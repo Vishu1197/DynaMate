@@ -1,0 +1,79 @@
+; md.mdp - unrestrained production molecular dynamics
+;
+; LENGTH: nsteps x dt = 50000000 x 0.002 ps = 100000 ps = 100 ns
+;
+; To change the length, change nsteps only:
+;     50 ns  ->  nsteps = 25000000
+;    100 ns  ->  nsteps = 50000000
+;    200 ns  ->  nsteps = 100000000
+;    500 ns  ->  nsteps = 250000000
+; Work it out as   nsteps = ns * 500000   when dt = 0.002 ps.
+
+integrator              = md
+dt                      = 0.002
+nsteps                  = 50000000
+
+; No position restraints during production - this is the whole point of the
+; run. Leaving -DPOSRES here is the single most common way to waste a week of
+; compute on a protein that never moves.
+define                  =
+
+; Constraints
+constraint_algorithm    = lincs
+constraints             = h-bonds
+lincs_iter              = 2
+lincs_order             = 4
+
+; Neighbour searching
+cutoff-scheme           = Verlet
+nstlist                 = 100
+
+; Electrostatics
+coulombtype             = PME
+rcoulomb                = 1.0
+pme_order               = 4
+fourierspacing          = 0.12
+
+; van der Waals
+rvdw                    = 1.0
+DispCorr                = EnerPres
+
+; Periodic boundary conditions
+pbc                     = xyz
+
+; Temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = Protein Non-Protein
+tau_t                   = 0.1     0.1
+ref_t                   = 300     300
+
+; Pressure coupling
+pcoupl                  = C-rescale
+pcoupltype              = isotropic
+tau_p                   = 2.0
+ref_p                   = 1.0
+compressibility         = 4.5e-5
+
+; Continuing from an equilibrated NPT state
+continuation            = yes
+gen_vel                 = no
+
+; Centre-of-mass motion removal
+nstcomm                 = 100
+comm-mode               = Linear
+
+; Trajectory output
+; 5000 steps x 0.002 ps = one frame every 10 ps = 10000 frames over 100 ns.
+; Increase for a smaller trajectory, decrease for finer time resolution.
+nstxout-compressed      = 5000
+compressed-x-grps       = System
+nstenergy               = 5000
+nstlog                  = 5000
+
+; Full-precision output is off; the compressed .xtc is enough for analysis
+; and .trr files for a 100 ns run are enormous.
+nstxout                 = 0
+nstvout                 = 0
+nstfout                 = 0
+
+ld_seed                 = -1
